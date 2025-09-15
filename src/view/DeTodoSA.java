@@ -45,10 +45,10 @@ public class DeTodoSA extends javax.swing.JFrame {
             .addGap(0, 271, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Administracion");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Consultas");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
