@@ -5,6 +5,11 @@
  */
 package view;
 
+import entity.DepositoProductos;
+import entity.Producto;
+import java.util.TreeSet;
+import javax.swing.JInternalFrame;
+
 /**
  *
  * @author Mauricio
@@ -14,6 +19,9 @@ public class DeTodoSA extends javax.swing.JFrame {
     /**
      * Creates new form DeTodoSA
      */
+    
+    private TreeSet<Producto> productos = new TreeSet<>();
+    
     public DeTodoSA() {
         initComponents();
     }
@@ -27,34 +35,34 @@ public class DeTodoSA extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane1 = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jmenu = new javax.swing.JMenu();
+        escritorio = new javax.swing.JDesktopPane();
+        mnbMenu = new javax.swing.JMenuBar();
+        mniProductos = new javax.swing.JMenu();
         mbarAdm = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        mbarRubro = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        mbarNombre = new javax.swing.JMenuItem();
-        jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        mbarPrecio = new javax.swing.JMenuItem();
+        mnuConsultas = new javax.swing.JMenu();
+        mniRubro = new javax.swing.JMenuItem();
+        psrSeparador1 = new javax.swing.JPopupMenu.Separator();
+        mniNombre = new javax.swing.JMenuItem();
+        psrSeparador2 = new javax.swing.JPopupMenu.Separator();
+        mniPrecio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 637, Short.MAX_VALUE)
+        javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
+        escritorio.setLayout(escritorioLayout);
+        escritorioLayout.setHorizontalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1090, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 556, Short.MAX_VALUE)
+        escritorioLayout.setVerticalGroup(
+            escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
 
-        jmenu.setText("Administracion");
-        jmenu.addActionListener(new java.awt.event.ActionListener() {
+        mniProductos.setText("Administracion");
+        mniProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmenuActionPerformed(evt);
+                mniProductosActionPerformed(evt);
             }
         });
 
@@ -64,89 +72,96 @@ public class DeTodoSA extends javax.swing.JFrame {
                 mbarAdmActionPerformed(evt);
             }
         });
-        jmenu.add(mbarAdm);
+        mniProductos.add(mbarAdm);
 
-        jMenuBar1.add(jmenu);
+        mnbMenu.add(mniProductos);
 
-        jMenu2.setText("Consultas");
+        mnuConsultas.setText("Consultas");
 
-        mbarRubro.setText("Lista Rubro");
-        mbarRubro.addActionListener(new java.awt.event.ActionListener() {
+        mniRubro.setText("Lista Rubro");
+        mniRubro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mbarRubroActionPerformed(evt);
+                mniRubroActionPerformed(evt);
             }
         });
-        jMenu2.add(mbarRubro);
-        jMenu2.add(jSeparator1);
+        mnuConsultas.add(mniRubro);
+        mnuConsultas.add(psrSeparador1);
 
-        mbarNombre.setText("Lista Nombre");
-        mbarNombre.addActionListener(new java.awt.event.ActionListener() {
+        mniNombre.setText("Lista Nombre");
+        mniNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mbarNombreActionPerformed(evt);
+                mniNombreActionPerformed(evt);
             }
         });
-        jMenu2.add(mbarNombre);
-        jMenu2.add(jSeparator2);
+        mnuConsultas.add(mniNombre);
+        mnuConsultas.add(psrSeparador2);
 
-        mbarPrecio.setText("Lista Precio");
-        mbarPrecio.addActionListener(new java.awt.event.ActionListener() {
+        mniPrecio.setText("Lista Precio");
+        mniPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mbarPrecioActionPerformed(evt);
+                mniPrecioActionPerformed(evt);
             }
         });
-        jMenu2.add(mbarPrecio);
+        mnuConsultas.add(mniPrecio);
 
-        jMenuBar1.add(jMenu2);
+        mnbMenu.add(mnuConsultas);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(mnbMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(escritorio)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPane1)
+                .addComponent(escritorio)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mbarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarRubroActionPerformed
-        ListadoRubro lista=new ListadoRubro();
-        jDesktopPane1.add(lista);
-        lista.setVisible(true);
-    }//GEN-LAST:event_mbarRubroActionPerformed
+    private void mniRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRubroActionPerformed
+        ListadoRubro listaRubro=new ListadoRubro();
+        abrirYCentrar(listaRubro);
+    }//GEN-LAST:event_mniRubroActionPerformed
 
-    private void mbarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarPrecioActionPerformed
-        Listado_Precio lis=new Listado_Precio();
-        jDesktopPane1.add(lis);
-        lis.setVisible(true);
-    }//GEN-LAST:event_mbarPrecioActionPerformed
+    private void mniPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniPrecioActionPerformed
+        Listado_Precio listaPrecio=new Listado_Precio();
+        abrirYCentrar(listaPrecio);
+    }//GEN-LAST:event_mniPrecioActionPerformed
 
-    private void jmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuActionPerformed
+    private void mniProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniProductosActionPerformed
         
-    }//GEN-LAST:event_jmenuActionPerformed
+    }//GEN-LAST:event_mniProductosActionPerformed
 
     private void mbarAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarAdmActionPerformed
         Getion_Productos internal=new Getion_Productos();
-        jDesktopPane1.add(internal);
-        internal.setVisible(true);
+        abrirYCentrar(internal);
     }//GEN-LAST:event_mbarAdmActionPerformed
 
-    private void mbarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarNombreActionPerformed
-       Listado_Nombre lista=new Listado_Nombre();
-        jDesktopPane1.add(lista);
-        lista.setVisible(true);
-    }//GEN-LAST:event_mbarNombreActionPerformed
+    private void mniNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniNombreActionPerformed
+       Listado_Nombre listaNombre = new Listado_Nombre();
+        abrirYCentrar(listaNombre);
+    }//GEN-LAST:event_mniNombreActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
+    private void abrirYCentrar(JInternalFrame frame) {
+        escritorio.add(frame);
+        frame.pack(); 
+        frame.setVisible(true);
+
+        int x = (escritorio.getWidth() - frame.getWidth()) / 2;
+        int y = (escritorio.getHeight() - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -177,18 +192,33 @@ public class DeTodoSA extends javax.swing.JFrame {
                 new DeTodoSA().setVisible(true);
             }
         });
+        
+        Producto p1 = new Producto(8172,"Perfume", 1200.00, 25, "PERFUMERIA");
+        Producto p2 = new Producto(7123,"Desodorante", 1800.50, 10, "PERFUMERIA");
+        Producto p3 = new Producto(9273,"Banana", 200.00, 59, "COMESTIBLE");
+        Producto p4 = new Producto(1825,"Cereal", 2230.00, 15, "COMESTIBLE");
+        Producto p5 = new Producto(3372,"Lavandina", 1700.00, 30, "LIMPIEZA");
+        Producto p6 = new Producto(3372,"Detergente", 1800.00, 23, "LIMPIEZA");
+        
+        DepositoProductos.altaProducto(p1);
+        DepositoProductos.altaProducto(p2);
+        DepositoProductos.altaProducto(p3);
+        DepositoProductos.altaProducto(p4);
+        DepositoProductos.altaProducto(p5);
+        DepositoProductos.altaProducto(p6);
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JMenu jmenu;
+    private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem mbarAdm;
-    private javax.swing.JMenuItem mbarNombre;
-    private javax.swing.JMenuItem mbarPrecio;
-    private javax.swing.JMenuItem mbarRubro;
+    private javax.swing.JMenuBar mnbMenu;
+    private javax.swing.JMenuItem mniNombre;
+    private javax.swing.JMenuItem mniPrecio;
+    private javax.swing.JMenu mniProductos;
+    private javax.swing.JMenuItem mniRubro;
+    private javax.swing.JMenu mnuConsultas;
+    private javax.swing.JPopupMenu.Separator psrSeparador1;
+    private javax.swing.JPopupMenu.Separator psrSeparador2;
     // End of variables declaration//GEN-END:variables
 }

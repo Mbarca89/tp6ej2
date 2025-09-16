@@ -9,7 +9,7 @@ package entity;
  *
  * @author Mauricio
  */
-public class Producto {
+public class Producto implements Comparable<Producto> {
     private int codigo;
     private String descripcion;
     private Double precio;
@@ -25,6 +25,24 @@ public class Producto {
         this.precio = precio;
         this.stock = stock;
         this.rubro = rubro;
+    }
+    
+     @Override
+    public int compareTo(Producto o) {
+        return Integer.compare(this.codigo, o.codigo);
+    }
+    
+     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Producto)) return false;
+        Producto other = (Producto) obj;
+        return this.codigo == other.codigo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(codigo);
     }
 
     public int getCodigo() {
