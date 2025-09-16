@@ -1,6 +1,10 @@
 
 package view;
 
+import entity.DepositoProductos;
+import entity.Producto;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +21,7 @@ public class Listado_Precio extends javax.swing.JInternalFrame {
         
         modeloTabla = new DefaultTableModel(new Object[]{"codigo", "Descripcion", "Precio","Categoria","Stock"}, 0);
         tblproductosPrecio.setModel(modeloTabla);
-        
+        cargarTabla(DepositoProductos.listarTodos());
     }
 
     
@@ -156,6 +160,20 @@ public class Listado_Precio extends javax.swing.JInternalFrame {
     this.dispose();      
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void cargarTabla(List<Producto> lista) {
+    modeloTabla.setRowCount(0); // limpia la tabla
+    
+    for (Producto p : lista) {
+        modeloTabla.addRow(new Object[]{
+            p.getCodigo(),
+            p.getDescripcion(),
+            p.getPrecio(),
+            p.getRubro(),
+            p.getStock()
+        });
+    }
+}
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
                                                
        
@@ -169,18 +187,15 @@ public class Listado_Precio extends javax.swing.JInternalFrame {
         }
         modeloTabla.setRowCount(0);
 
-        
-        for (Producto p : NombreDelTreeset) {
+        List<Producto> filtrados = new ArrayList<>();
+        for (Producto p : DepositoProductos.listarTodos()) {
             if (p.getPrecio() >= precioMin && p.getPrecio() <= precioMax) {
-                modeloTabla.addRow(new Object[]{
-                    p.getCodigo(),
-                    p.getDescripcion(),
-                    p.getPrecio(),
-                    p.getCategoria(),
-                    p.getStock()
-                });
+                filtrados.add(p);
             }
         }
+
+        cargarTabla(filtrados);
+    
 
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Debe ingresar valores numéricos válidos.");
