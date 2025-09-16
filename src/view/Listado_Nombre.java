@@ -4,6 +4,7 @@
  */
 package view;
 
+import entity.DepositoProductos;
 import entity.Producto;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ public class Listado_Nombre extends javax.swing.JInternalFrame {
     private DefaultTableModel modeloTabla;
     private List<Producto> listaProductos;
 
-    public Listado_Nombre(List<Producto> productos) {
+    public Listado_Nombre() {
         initComponents();
-        this.listaProductos = productos;
+        this.listaProductos = DepositoProductos.listarTodos();
 
         
         modeloTabla = new DefaultTableModel(
@@ -36,9 +37,7 @@ public class Listado_Nombre extends javax.swing.JInternalFrame {
             public void changedUpdate(DocumentEvent e) { filtrar(); }
         });
     }
-public Listado_Nombre() {
-        this(new ArrayList<>()); 
-    }
+
     private void cargarTabla(List<Producto> productos) {
         modeloTabla.setRowCount(0); 
         for (Producto p : productos) {
