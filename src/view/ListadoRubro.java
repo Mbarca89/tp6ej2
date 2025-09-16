@@ -4,18 +4,32 @@
  */
 package view;
 
+import entity.Rubro;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Nicolino Uchiha
  */
 public class ListadoRubro extends javax.swing.JInternalFrame {
-
+        
     /**
      * Creates new form ListadoRubro
      */
+    private DefaultTableModel modeloTabla;
+    
+     
     public ListadoRubro() {
         initComponents();
+        cmbRubro.removeAllItems();
+        for (String r : Rubro.getRubros()) {
+        cmbRubro.addItem(r);  
     }
+        modeloTabla = new DefaultTableModel(new Object[]{"codigo", "Descripcion", "Precio","Categoria","Stock"}, 0);
+        tblproductos.setModel(modeloTabla);
+        
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,14 +45,13 @@ public class ListadoRubro extends javax.swing.JInternalFrame {
         cmbRubro = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblproductos = new javax.swing.JTable();
+        btnSalir = new javax.swing.JButton();
 
         txtTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTitulo.setText("Listado Por Rubro ");
 
         txtRubro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtRubro.setText("Rubro:");
-
-        cmbRubro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tblproductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -52,6 +65,13 @@ public class ListadoRubro extends javax.swing.JInternalFrame {
             }
         ));
         jScrollPane1.setViewportView(tblproductos);
+
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -67,7 +87,9 @@ public class ListadoRubro extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSalir)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
@@ -81,14 +103,22 @@ public class ListadoRubro extends javax.swing.JInternalFrame {
                     .addComponent(cmbRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btnSalir)
+                .addGap(22, 22, 22))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    
+    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSalir;
     private javax.swing.JComboBox<String> cmbRubro;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblproductos;

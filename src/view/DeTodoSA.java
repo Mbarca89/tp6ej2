@@ -29,8 +29,14 @@ public class DeTodoSA extends javax.swing.JFrame {
 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jmenu = new javax.swing.JMenu();
+        mbarAdm = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        mbarRubro = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        mbarNombre = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        mbarPrecio = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,17 +44,58 @@ public class DeTodoSA extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 637, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 271, Short.MAX_VALUE)
+            .addGap(0, 556, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Administracion");
-        jMenuBar1.add(jMenu1);
+        jmenu.setText("Administracion");
+        jmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenuActionPerformed(evt);
+            }
+        });
+
+        mbarAdm.setText("Administracion Productos");
+        mbarAdm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbarAdmActionPerformed(evt);
+            }
+        });
+        jmenu.add(mbarAdm);
+
+        jMenuBar1.add(jmenu);
 
         jMenu2.setText("Consultas");
+
+        mbarRubro.setText("Lista Rubro");
+        mbarRubro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbarRubroActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbarRubro);
+        jMenu2.add(jSeparator1);
+
+        mbarNombre.setText("Lista Nombre");
+        mbarNombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbarNombreActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbarNombre);
+        jMenu2.add(jSeparator2);
+
+        mbarPrecio.setText("Lista Precio");
+        mbarPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbarPrecioActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbarPrecio);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -68,6 +115,34 @@ public class DeTodoSA extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mbarRubroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarRubroActionPerformed
+        ListadoRubro lista=new ListadoRubro();
+        jDesktopPane1.add(lista);
+        lista.setVisible(true);
+    }//GEN-LAST:event_mbarRubroActionPerformed
+
+    private void mbarPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarPrecioActionPerformed
+        Listado_Precio lis=new Listado_Precio();
+        jDesktopPane1.add(lis);
+        lis.setVisible(true);
+    }//GEN-LAST:event_mbarPrecioActionPerformed
+
+    private void jmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuActionPerformed
+        
+    }//GEN-LAST:event_jmenuActionPerformed
+
+    private void mbarAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarAdmActionPerformed
+        Getion_Productos internal=new Getion_Productos();
+        jDesktopPane1.add(internal);
+        internal.setVisible(true);
+    }//GEN-LAST:event_mbarAdmActionPerformed
+
+    private void mbarNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbarNombreActionPerformed
+       Listado_Nombre lista=new Listado_Nombre();
+        jDesktopPane1.add(lista);
+        lista.setVisible(true);
+    }//GEN-LAST:event_mbarNombreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -106,8 +181,14 @@ public class DeTodoSA extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JMenu jmenu;
+    private javax.swing.JMenuItem mbarAdm;
+    private javax.swing.JMenuItem mbarNombre;
+    private javax.swing.JMenuItem mbarPrecio;
+    private javax.swing.JMenuItem mbarRubro;
     // End of variables declaration//GEN-END:variables
 }
