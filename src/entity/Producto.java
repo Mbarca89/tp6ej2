@@ -27,6 +27,12 @@ public class Producto implements Comparable<Producto> {
         this.rubro = rubro;
     }
     
+    public int getCodigo() { return codigo; }
+    public String getDescripcion() { return descripcion; }
+    public double getPrecio() { return precio; }
+    public int getStock() { return stock; }
+    public String getRubro() { return rubro; }
+    
      @Override
     public int compareTo(Producto o) {
         return Integer.compare(this.codigo, o.codigo);
@@ -45,41 +51,31 @@ public class Producto implements Comparable<Producto> {
         return Integer.hashCode(codigo);
     }
 
-    public int getCodigo() {
-        return codigo;
-    }
+  
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
+
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
+   
 
     public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public int getStock() {
-        return stock;
-    }
+
 
     public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public String getRubro() {
-        return rubro;
-    }
+  
 
     public void setRubro(String rubro) {
         this.rubro = rubro;

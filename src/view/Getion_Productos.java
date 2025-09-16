@@ -1,8 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package view;
+
+import java.util.TreeSet;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 /**
  *
@@ -10,11 +11,13 @@ package view;
  */
 public class Getion_Productos extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form Getion_Productos
-     */
+    private TreeSet<Producto> productos = new TreeSet<>();
+    private DefaultTableModel modelo;
+    
     public Getion_Productos() {
         initComponents();
+        configurarTabla();
+        cargarRubros();
     }
 
     /**
@@ -234,10 +237,83 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       limpiarCampos();
+       jTextField3.requestFocus();
+// Boton Nuevo // 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+        int fila = tblproductos1.getSelectedRow();
+        if (fila != -1) {
+            int codigo = (int) modelo.getValueAt(fila, 0);
+            productos.removeIf(p -> p.getCodigo() == codigo);
+            modelo.removeRow(fila);
+            JOptionPane.showMessageDialog(this, "Producto eliminado.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+        }
+    }
+    
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt){
+        try {
+            int codigo = Integer.parseInt(jTextField3.getText().trim());
+            String descripcion = jTextField2.getText().trim();
+            double precio = Double.parseDouble(jTextField1.getText().trim());
+            int stock = (Integer) jSpinner1.getValue();
+            String rubro = (String) jComboBox2.getSelectedItem();
 
+            if (descripcion.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "La descripcion no puede estar vacia.");
+                jTextField2.requestFocus();
+                return;
+            }
+
+            Producto nuevo = new Producto(codigo, descripcion, precio, stock, rubro);
+            if (productos.add(nuevo)) {
+                modelo.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
+                JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo.");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Ingrese valores numericos validos.");
+        }
+    }
+    
+private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+    int fila = tblproductos1.getSelectedRow();
+        if (fila != -1) {
+            try {
+                int codigo = Integer.parseInt(jTextField3.getText().trim());
+                String descripcion = jTextField2.getText().trim();
+                double precio = Double.parseDouble(jTextField1.getText().trim());
+                int stock = (Integer) jSpinner1.getValue();
+                String rubro = (String) jComboBox2.getSelectedItem();
+
+                Producto modificado = new Producto(codigo, descripcion, precio, stock, rubro);
+                productos.removeIf(p -> p.getCodigo() == codigo);
+                productos.add(modificado);
+
+                modelo.setValueAt(codigo, fila, 0);
+                modelo.setValueAt(descripcion, fila, 1);
+                modelo.setValueAt(precio, fila, 2);
+                modelo.setValueAt(rubro, fila, 3);
+                modelo.setValueAt(stock, fila, 4);
+
+                JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Error en valores numericos.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+        }
+    }
+
+}
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton jButton2;
@@ -260,4 +336,34 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblproductos1;
     // End of variables declaration//GEN-END:variables
+
+ private void configurarTabla() {
+    DefaultTableModel modelo = new DefaultTableModel(
+new Object[]{"Código", "Descripción", "Precio", "Rubro", "Stock"}, 0
+) {
+@Override
+public boolean isCellEditable(int row, int col) {
+return false;
 }
+};
+        tblproductos1.setModel(modelo);
+    }
+
+    private void cargarRubros() {
+        jComboBox2.removeAllItems();
+        jComboBox2.addItem("Comestible");
+        jComboBox2.addItem("Limpieza");
+        jComboBox2.addItem("Perfumería");
+    }
+
+    private void limpiarCampos() {
+
+        jTextField3.setText(""); // codigo //
+        jTextField2.setText(""); // descripcion //
+        jTextField1.setText(""); // precio //
+        jSpinner1.setValue(0);   // stock //
+        jComboBox2.setSelectedIndex(0);
+
+    }
+
+
