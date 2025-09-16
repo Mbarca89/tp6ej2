@@ -198,7 +198,7 @@ public class Listado_Precio extends javax.swing.JInternalFrame {
     
 
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Debe ingresar valores numéricos válidos.");
+        JOptionPane.showMessageDialog(this, "Debe ingresar numeros válidos.");
     }
   
     }//GEN-LAST:event_btnBuscarActionPerformed
