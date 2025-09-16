@@ -1,7 +1,11 @@
 
 package view;
 
+import entity.DepositoProductos;
 import entity.Producto;
+import entity.Rubro;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
@@ -13,13 +17,36 @@ import javax.swing.*;
 public class Getion_Productos extends javax.swing.JInternalFrame {
 
     private TreeSet<Producto> productos = new TreeSet<>();
-    private DefaultTableModel modelo;
+    private DefaultTableModel modeloTabla;
     
     public Getion_Productos() {
         initComponents();
         configurarTabla();
         cargarRubros();
+        
+        modeloTabla = new DefaultTableModel(new Object[]{"codigo", "Descripcion", "Precio","Categoria","Stock"}, 0);
+        tblproductos1.setModel(modeloTabla);
+        
+        cmbFiltrarCategoria.removeAllItems();
+        for (String r : Rubro.getRubros()) {
+        cmbFiltrarCategoria.addItem(r);  
     }
+        
+    }
+    
+    private void cargarTabla(List<Producto> lista) {
+    modeloTabla.setRowCount(0);
+    
+    for (Producto p : lista) {
+        modeloTabla.addRow(new Object[]{
+            p.getCodigo(),
+            p.getDescripcion(),
+            p.getPrecio(),
+            p.getRubro(),
+            p.getStock()
+        });
+    }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,7 +59,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbFiltrarCategoria = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblproductos1 = new javax.swing.JTable();
@@ -57,7 +84,11 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Filtrar por Categorias");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbFiltrarCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbFiltrarCategoriaActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("Codigo: ");
@@ -136,7 +167,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbFiltrarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(187, 187, 187))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
@@ -189,7 +220,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbFiltrarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
@@ -243,12 +274,31 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
 // Boton Nuevo // 
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void cmbFiltrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltrarCategoriaActionPerformed
+        String rubroSeleccionado = (String) cmbFiltrarCategoria.getSelectedItem();
+    
+    if (rubroSeleccionado != null) {
+        // Creo una lista para los productos de ese rubro
+        List<Producto> filtrados = new ArrayList<>();
+        
+        // Recorro todos los productos del depósito
+        for (Producto p : DepositoProductos.listarTodos()) {
+            if (p.getRubro().equalsIgnoreCase(rubroSeleccionado)) {
+                filtrados.add(p);
+            }
+        }
+        
+        // Cargo los filtrados en la tabla
+        cargarTabla(filtrados);
+    }
+    }//GEN-LAST:event_cmbFiltrarCategoriaActionPerformed
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         int fila = tblproductos1.getSelectedRow();
         if (fila != -1) {
-            int codigo = (int) modelo.getValueAt(fila, 0);
+            int codigo = (int) modeloTabla.getValueAt(fila, 0);
             productos.removeIf(p -> p.getCodigo() == codigo);
-            modelo.removeRow(fila);
+            modeloTabla.removeRow(fila);
             JOptionPane.showMessageDialog(this, "Producto eliminado.");
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un producto.");
@@ -271,7 +321,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
 
             Producto nuevo = new Producto(codigo, descripcion, precio, stock, rubro);
             if (productos.add(nuevo)) {
-                modelo.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
+                modeloTabla.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
                 limpiarCampos();
             } else {
@@ -297,11 +347,11 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
                 productos.removeIf(p -> p.getCodigo() == codigo);
                 productos.add(modificado);
 
-                modelo.setValueAt(codigo, fila, 0);
-                modelo.setValueAt(descripcion, fila, 1);
-                modelo.setValueAt(precio, fila, 2);
-                modelo.setValueAt(rubro, fila, 3);
-                modelo.setValueAt(stock, fila, 4);
+                modeloTabla.setValueAt(codigo, fila, 0);
+                modeloTabla.setValueAt(descripcion, fila, 1);
+                modeloTabla.setValueAt(precio, fila, 2);
+                modeloTabla.setValueAt(rubro, fila, 3);
+                modeloTabla.setValueAt(stock, fila, 4);
 
                 JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
             } catch (NumberFormatException ex) {
@@ -349,11 +399,11 @@ return false;
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;
+    private javax.swing.JComboBox<String> cmbFiltrarCategoria;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
