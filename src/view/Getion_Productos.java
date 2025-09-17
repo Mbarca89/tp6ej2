@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.TreeSet;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
+import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -18,6 +20,8 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
 
     private TreeSet<Producto> productos = new TreeSet<>();
     private DefaultTableModel modeloTabla;
+    private boolean actualizando = false;
+    private boolean creando = false;
     
     public Getion_Productos() {
         initComponents();
@@ -25,13 +29,43 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         cargarRubros();
         
         modeloTabla = new DefaultTableModel(new Object[]{"codigo", "Descripcion", "Precio","Categoria","Stock"}, 0);
-        tblproductos1.setModel(modeloTabla);
+        tblProductos.setSelectionMode(SINGLE_SELECTION);
+        tblProductos.setModel(modeloTabla);
+        
+        tblProductos.getSelectionModel().addListSelectionListener(event -> {
+            int fila = tblProductos.getSelectedRow();
+            if (fila == -1) {
+               return;
+            }
+            deshabilitarTodo();
+            TableModel modelo = tblProductos.getModel();
+            Object codigo = modelo.getValueAt(fila,0);
+            Object descripcion = modelo.getValueAt(fila,1);
+            Object precio = modelo.getValueAt(fila,2);
+            Object rubro = modelo.getValueAt(fila,3);
+            Object stock = modelo.getValueAt(fila,4);
+            
+            txtCodigo.setText(String.valueOf(codigo));
+            txtDescripcion.setText(String.valueOf(descripcion));
+            txtPrecio.setText(String.valueOf(precio));
+            cmbRubro.setSelectedItem(String.valueOf(rubro));
+            jspStock.setValue(stock);
+            
+            btnActualizar.setEnabled(true);
+            btnEliminar.setEnabled(true);
+        });
+        
         
         cmbFiltrarCategoria.removeAllItems();
         for (String r : Rubro.getRubros()) {
-        cmbFiltrarCategoria.addItem(r);  
-    }
+            cmbFiltrarCategoria.addItem(r);  
+        }
         
+        //estado inicial 
+        btnGuardar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnActualizar.setEnabled(false);
+        deshabilitarTodo();
     }
     
     private void cargarTabla(List<Producto> lista) {
@@ -44,9 +78,53 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             p.getPrecio(),
             p.getRubro(),
             p.getStock()
-        });
+            });
+        }
     }
-}
+    
+    private void actualizarTabla() {
+        String rubroSeleccionado = (String) cmbFiltrarCategoria.getSelectedItem();
+        if (rubroSeleccionado != null) {
+            // Creo una lista para los productos de ese rubro
+            List<Producto> filtrados = new ArrayList<>();
+        
+        // Recorro todos los productos del depósito
+        for (Producto p : DepositoProductos.listarTodos()) {
+            if (p.getRubro().equalsIgnoreCase(rubroSeleccionado)) {
+                filtrados.add(p);
+            }
+        }
+        
+        // Cargo los filtrados en la tabla
+        cargarTabla(filtrados);
+        }
+    }
+    
+    public void deshabilitarTodo () {
+        txtCodigo.setEnabled(false);
+        txtDescripcion.setEnabled(false);
+        txtPrecio.setEnabled(false);
+        cmbRubro.setEnabled(false);
+        txtPrecio.setEnabled(false);
+        jspStock.setEnabled(false);
+    }
+    
+     public void habilitarTodo () {
+        txtCodigo.setEnabled(true);
+        txtDescripcion.setEnabled(true);
+        txtPrecio.setEnabled(true);
+        cmbRubro.setEnabled(true);
+        txtPrecio.setEnabled(true);
+        jspStock.setEnabled(true);
+    }
+     
+     public void limpiarCampos(){
+         txtCodigo.setText(""); 
+         txtDescripcion.setText(""); 
+         txtPrecio.setText(""); 
+         jspStock.setValue(0);   
+         cmbRubro.setSelectedIndex(0);
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,16 +135,16 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
+        lblSubtitulo = new javax.swing.JLabel();
         cmbFiltrarCategoria = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblproductos1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
+        scrTable = new javax.swing.JScrollPane();
+        tblProductos = new javax.swing.JTable();
+        lblDescripcion = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
+        lblRubro = new javax.swing.JLabel();
+        lblStock = new javax.swing.JLabel();
         cmbRubro = new javax.swing.JComboBox<>();
         txtPrecio = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
@@ -78,11 +156,11 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Gestion de Productos");
+        lblTitulo.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitulo.setText("Gestion de Productos");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Filtrar por Categorias");
+        lblSubtitulo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblSubtitulo.setText("Filtrar por Categorias");
 
         cmbFiltrarCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,10 +168,10 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setText("Codigo: ");
+        lblCodigo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCodigo.setText("Codigo: ");
 
-        tblproductos1.setModel(new javax.swing.table.DefaultTableModel(
+        tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -104,19 +182,19 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 "Codigo", "Descripcion ", "Precio", "Categoria", "Stock"
             }
         ));
-        jScrollPane3.setViewportView(tblproductos1);
+        scrTable.setViewportView(tblProductos);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setText("Descripcion: ");
+        lblDescripcion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblDescripcion.setText("Descripcion: ");
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setText("Precio: ");
+        lblPrecio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPrecio.setText("Precio: ");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Rubro:");
+        lblRubro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblRubro.setText("Rubro:");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("Stock:");
+        lblStock.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblStock.setText("Stock:");
 
         txtPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,7 +256,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblSubtitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cmbFiltrarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(187, 187, 187))
@@ -187,21 +265,21 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
+                                    .addComponent(lblDescripcion)
+                                    .addComponent(lblCodigo))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtDescripcion)
                                     .addComponent(txtCodigo)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7))
+                                    .addComponent(lblPrecio)
+                                    .addComponent(lblRubro)
+                                    .addComponent(lblStock))
                                 .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jspStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jspStock, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(cmbRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -219,42 +297,42 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(179, 179, 179)
-                        .addComponent(jLabel1))
+                        .addComponent(lblTitulo))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(scrTable, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(lblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblSubtitulo)
                     .addComponent(cmbFiltrarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrTable, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(lblCodigo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
+                    .addComponent(lblDescripcion)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
+                    .addComponent(lblPrecio)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(lblRubro)
                     .addComponent(cmbRubro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(lblStock)
                     .addComponent(jspStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCerrar))
                 .addGap(37, 37, 37)
@@ -282,21 +360,34 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-       txtCodigo.setText("");
-        txtDescripcion.setText(""); 
-        txtPrecio.setText(""); 
-        jspStock.setValue(0);   
-        cmbRubro.setSelectedIndex(0);
-       txtCodigo.requestFocus();
-
+       if(btnNuevo.getText().equals("Nuevo")) {
+            limpiarCampos();
+            txtCodigo.requestFocus();
+            btnGuardar.setEnabled(true);
+            txtCodigo.setEnabled(true);
+            txtDescripcion.setEnabled(true);
+            txtPrecio.setEnabled(true);
+            cmbRubro.setEnabled(true);
+            txtPrecio.setEnabled(true);
+            jspStock.setEnabled(true);
+            tblProductos.clearSelection();
+            btnNuevo.setText("Cancelar");
+            creando=true;
+       } else {
+           limpiarCampos();
+           deshabilitarTodo();
+           btnNuevo.setText("Nuevo");
+           btnGuardar.setEnabled(false);
+       }
+       
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void cmbFiltrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltrarCategoriaActionPerformed
         String rubroSeleccionado = (String) cmbFiltrarCategoria.getSelectedItem();
     
-    if (rubroSeleccionado != null) {
-        // Creo una lista para los productos de ese rubro
-        List<Producto> filtrados = new ArrayList<>();
+        if (rubroSeleccionado != null) {
+            // Creo una lista para los productos de ese rubro
+            List<Producto> filtrados = new ArrayList<>();
         
         // Recorro todos los productos del depósito
         for (Producto p : DepositoProductos.listarTodos()) {
@@ -311,42 +402,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cmbFiltrarCategoriaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        try {
-            int codigo = Integer.parseInt(txtCodigo.getText().trim());
-            String descripcion = txtDescripcion.getText().trim();
-            double precio = Double.parseDouble(txtPrecio.getText().trim());
-            int stock = (Integer) jspStock.getValue();
-            String rubro = (String) cmbRubro.getSelectedItem();
-
-            if (descripcion.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "La descripcion no puede estar vacia.");
-                txtDescripcion.requestFocus();
-                return;
-            }
-
-            Producto nuevo = new Producto(codigo, descripcion, precio, stock, rubro);
-            DepositoProductos.altaProducto(nuevo);
-            if (productos.add(nuevo)) {
-                modeloTabla.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
-                JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
-                txtCodigo.setText(""); 
-                txtDescripcion.setText(""); 
-                txtPrecio.setText(""); 
-                jspStock.setValue(0);   
-                cmbRubro.setSelectedIndex(0);
-            } else {
-                JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo.");
-            }
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Ingrese valores numericos validos.");
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        
-        int fila = tblproductos1.getSelectedRow();
-        if (fila != -1) {
+        if(creando){
             try {
                 int codigo = Integer.parseInt(txtCodigo.getText().trim());
                 String descripcion = txtDescripcion.getText().trim();
@@ -354,40 +410,115 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 int stock = (Integer) jspStock.getValue();
                 String rubro = (String) cmbRubro.getSelectedItem();
 
-                Producto modificado = new Producto(codigo, descripcion, precio, stock, rubro);
-                DepositoProductos.bajaProducto(codigo);
-                DepositoProductos.altaProducto(modificado);
-                productos.removeIf(p -> p.getCodigo() == codigo);
-                productos.add(modificado);
+                if (descripcion.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "La descripcion no puede estar vacia.");
+                    txtDescripcion.requestFocus();
+                    return;
+                }
 
-                modeloTabla.setValueAt(codigo, fila, 0);
-                modeloTabla.setValueAt(descripcion, fila, 1);
-                modeloTabla.setValueAt(precio, fila, 2);
-                modeloTabla.setValueAt(rubro, fila, 3);
-                modeloTabla.setValueAt(stock, fila, 4);
-
-                JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
+                Producto nuevo = new Producto(codigo, descripcion, precio, stock, rubro);
+                DepositoProductos.altaProducto(nuevo);
+                if (productos.add(nuevo)) {
+                    JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
+                    limpiarCampos();
+                    deshabilitarTodo();
+                    btnNuevo.setText("Nuevo");
+                    btnGuardar.setEnabled(false);
+                    actualizarTabla();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo.");
+                }
+                creando=false;
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Error en valores numericos.");
+                JOptionPane.showMessageDialog(this, "Ingrese valores numericos validos.");
             }
+        } else if(actualizando) {
+            int fila = tblProductos.getSelectedRow();
+            if (fila != -1) {
+                try {
+                    int codigo = Integer.parseInt(txtCodigo.getText().trim());
+                    String descripcion = txtDescripcion.getText().trim();
+                    double precio = Double.parseDouble(txtPrecio.getText().trim());
+                    int stock = (Integer) jspStock.getValue();
+                    String rubro = (String) cmbRubro.getSelectedItem();
+
+                    Producto modificado = new Producto(codigo, descripcion, precio, stock, rubro);
+                    boolean modified = DepositoProductos.modificarProducto(modificado);
+                    
+                    modeloTabla.setValueAt(codigo, fila, 0);
+                    modeloTabla.setValueAt(descripcion, fila, 1);
+                    modeloTabla.setValueAt(precio, fila, 2);
+                    modeloTabla.setValueAt(rubro, fila, 3);
+                    modeloTabla.setValueAt(stock, fila, 4);
+
+                    if(modified) JOptionPane.showMessageDialog(this, "Producto modificado correctamente.");
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Error en valores numericos.");
+                }
+                actualizando=false;
+                tblProductos.clearSelection();
+                btnActualizar.setText("Actualizar");
+                btnActualizar.setEnabled(false);
+                limpiarCampos();
+                deshabilitarTodo();
+                btnGuardar.setEnabled(false);
+                btnNuevo.setEnabled(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        btnGuardar.setEnabled(true);
+        actualizando=true;
+        if(btnActualizar.getText().equals("Actualizar")){
+            btnActualizar.setText("Cancelar");
+            btnNuevo.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            txtDescripcion.setEnabled(true);
+            txtPrecio.setEnabled(true);
+            cmbRubro.setEnabled(true);
+            txtPrecio.setEnabled(true);
+            jspStock.setEnabled(true);
         } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+            tblProductos.clearSelection();
+            btnActualizar.setText("Actualizar");
+            btnActualizar.setEnabled(false);
+            limpiarCampos();
+            deshabilitarTodo();
+            btnGuardar.setEnabled(false);
+            btnNuevo.setEnabled(true);
         }
         
         
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        int fila = tblproductos1.getSelectedRow();
-        if (fila != -1) {
-            int codigo = (int) modeloTabla.getValueAt(fila, 0);
-            productos.removeIf(p -> p.getCodigo() == codigo);
-            modeloTabla.removeRow(fila);
+       int fila = tblProductos.getSelectedRow();
+    if (fila != -1) {
+        int codigo = (int) modeloTabla.getValueAt(fila, 0);
+
+        int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "¿Está seguro de eliminar el producto con código " + codigo + "?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+        );
+
+        if (confirm == JOptionPane.YES_OPTION) {
             DepositoProductos.bajaProducto(codigo);
-            JOptionPane.showMessageDialog(this, "Producto eliminado.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+            modeloTabla.removeRow(fila);
+            JOptionPane.showMessageDialog(this, "Producto eliminado correctamente.");
+            limpiarCampos();
+            deshabilitarTodo();
+            btnEliminar.setEnabled(false);
+            btnActualizar.setEnabled(false);
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+    }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
   
@@ -403,14 +534,14 @@ public boolean isCellEditable(int row, int col) {
 return false;
 }
 };
-        tblproductos1.setModel(modelo);
+        tblProductos.setModel(modelo);
     }
 
     private void cargarRubros() {
         cmbRubro.removeAllItems();
-        cmbRubro.addItem("Comestible");
-        cmbRubro.addItem("Limpieza");
-        cmbRubro.addItem("Perfumería");
+        for(String rubro : Rubro.getRubros()) {
+            cmbRubro.addItem(rubro);
+        };
     }
 
 
@@ -423,16 +554,16 @@ return false;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cmbFiltrarCategoria;
     private javax.swing.JComboBox<String> cmbRubro;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jspStock;
-    private javax.swing.JTable tblproductos1;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JLabel lblRubro;
+    private javax.swing.JLabel lblStock;
+    private javax.swing.JLabel lblSubtitulo;
+    private javax.swing.JLabel lblTitulo;
+    private javax.swing.JScrollPane scrTable;
+    private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtPrecio;
