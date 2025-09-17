@@ -372,6 +372,8 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             jspStock.setEnabled(true);
             tblProductos.clearSelection();
             btnNuevo.setText("Cancelar");
+            btnActualizar.setEnabled(false);
+            btnEliminar.setEnabled(false);
             creando=true;
        } else {
            limpiarCampos();
