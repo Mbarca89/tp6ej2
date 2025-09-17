@@ -325,13 +325,14 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             }
 
             Producto nuevo = new Producto(codigo, descripcion, precio, stock, rubro);
+            DepositoProductos.altaProducto(nuevo);
             if (productos.add(nuevo)) {
                 modeloTabla.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
-                txtCodigo.setText(""); // codigo //
-                txtDescripcion.setText(""); // descripcion //
-                txtPrecio.setText(""); // precio //
-                jspStock.setValue(0);   // stock //
+                txtCodigo.setText(""); 
+                txtDescripcion.setText(""); 
+                txtPrecio.setText(""); 
+                jspStock.setValue(0);   
                 cmbRubro.setSelectedIndex(0);
             } else {
                 JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo.");
@@ -354,6 +355,8 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 String rubro = (String) cmbRubro.getSelectedItem();
 
                 Producto modificado = new Producto(codigo, descripcion, precio, stock, rubro);
+                DepositoProductos.bajaProducto(codigo);
+                DepositoProductos.altaProducto(modificado);
                 productos.removeIf(p -> p.getCodigo() == codigo);
                 productos.add(modificado);
 
@@ -380,6 +383,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             int codigo = (int) modeloTabla.getValueAt(fila, 0);
             productos.removeIf(p -> p.getCodigo() == codigo);
             modeloTabla.removeRow(fila);
+            DepositoProductos.bajaProducto(codigo);
             JOptionPane.showMessageDialog(this, "Producto eliminado.");
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un producto.");
