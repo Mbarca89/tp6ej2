@@ -68,10 +68,10 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cmbRubro = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jSpinner1 = new javax.swing.JSpinner();
+        txtPrecio = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        jspStock = new javax.swing.JSpinner();
         btnCerrar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -118,15 +118,15 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Stock:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtPrecio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtPrecioActionPerformed(evt);
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtDescripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtDescripcionActionPerformed(evt);
             }
         });
 
@@ -148,12 +148,27 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -176,8 +191,8 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField3)))
+                                    .addComponent(txtDescripcion)
+                                    .addComponent(txtCodigo)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
@@ -186,11 +201,11 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                                 .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jspStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnCerrar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(cmbRubro, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -223,16 +238,16 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -240,7 +255,7 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jspStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCerrar))
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -254,26 +269,26 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_txtPrecioActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtDescripcionActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
      this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-       jTextField3.setText(""); // codigo //
-        jTextField2.setText(""); // descripcion //
-        jTextField1.setText(""); // precio //
-        jSpinner1.setValue(0);   // stock //
+       txtCodigo.setText("");
+        txtDescripcion.setText(""); 
+        txtPrecio.setText(""); 
+        jspStock.setValue(0);   
         cmbRubro.setSelectedIndex(0);
-       jTextField3.requestFocus();
-// Boton Nuevo // 
+       txtCodigo.requestFocus();
+
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void cmbFiltrarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltrarCategoriaActionPerformed
@@ -295,29 +310,17 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
     }
     }//GEN-LAST:event_cmbFiltrarCategoriaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        int fila = tblproductos1.getSelectedRow();
-        if (fila != -1) {
-            int codigo = (int) modeloTabla.getValueAt(fila, 0);
-            productos.removeIf(p -> p.getCodigo() == codigo);
-            modeloTabla.removeRow(fila);
-            JOptionPane.showMessageDialog(this, "Producto eliminado.");
-        } else {
-            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
-        }
-    }
-    
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt){
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         try {
-            int codigo = Integer.parseInt(jTextField3.getText().trim());
-            String descripcion = jTextField2.getText().trim();
-            double precio = Double.parseDouble(jTextField1.getText().trim());
-            int stock = (Integer) jSpinner1.getValue();
+            int codigo = Integer.parseInt(txtCodigo.getText().trim());
+            String descripcion = txtDescripcion.getText().trim();
+            double precio = Double.parseDouble(txtPrecio.getText().trim());
+            int stock = (Integer) jspStock.getValue();
             String rubro = (String) cmbRubro.getSelectedItem();
 
             if (descripcion.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "La descripcion no puede estar vacia.");
-                jTextField2.requestFocus();
+                txtDescripcion.requestFocus();
                 return;
             }
 
@@ -325,10 +328,10 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
             if (productos.add(nuevo)) {
                 modeloTabla.addRow(new Object[]{codigo, descripcion, precio, rubro, stock});
                 JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
-                jTextField3.setText(""); // codigo //
-                jTextField2.setText(""); // descripcion //
-                jTextField1.setText(""); // precio //
-                jSpinner1.setValue(0);   // stock //
+                txtCodigo.setText(""); // codigo //
+                txtDescripcion.setText(""); // descripcion //
+                txtPrecio.setText(""); // precio //
+                jspStock.setValue(0);   // stock //
                 cmbRubro.setSelectedIndex(0);
             } else {
                 JOptionPane.showMessageDialog(this, "Ya existe un producto con ese codigo.");
@@ -337,16 +340,17 @@ public class Getion_Productos extends javax.swing.JInternalFrame {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Ingrese valores numericos validos.");
         }
-    }
-    
-private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
-    int fila = tblproductos1.getSelectedRow();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        
+        int fila = tblproductos1.getSelectedRow();
         if (fila != -1) {
             try {
-                int codigo = Integer.parseInt(jTextField3.getText().trim());
-                String descripcion = jTextField2.getText().trim();
-                double precio = Double.parseDouble(jTextField1.getText().trim());
-                int stock = (Integer) jSpinner1.getValue();
+                int codigo = Integer.parseInt(txtCodigo.getText().trim());
+                String descripcion = txtDescripcion.getText().trim();
+                double precio = Double.parseDouble(txtPrecio.getText().trim());
+                int stock = (Integer) jspStock.getValue();
                 String rubro = (String) cmbRubro.getSelectedItem();
 
                 Producto modificado = new Producto(codigo, descripcion, precio, stock, rubro);
@@ -366,7 +370,24 @@ private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un producto.");
         }
-    }
+        
+        
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int fila = tblproductos1.getSelectedRow();
+        if (fila != -1) {
+            int codigo = (int) modeloTabla.getValueAt(fila, 0);
+            productos.removeIf(p -> p.getCodigo() == codigo);
+            modeloTabla.removeRow(fila);
+            JOptionPane.showMessageDialog(this, "Producto eliminado.");
+        } else {
+            JOptionPane.showMessageDialog(this, "Seleccione un producto.");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+  
+
 
 
 private void configurarTabla() {
@@ -406,11 +427,11 @@ return false;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JSpinner jspStock;
     private javax.swing.JTable tblproductos1;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }
 
